@@ -7,7 +7,7 @@ import lombok.Data;
 public class UserProfileScheduleResponseDTO {
     private java.sql.Timestamp paymentDate;
 
-    private Long amount;
+    private Double amount;
 
     public static UserProfileScheduleResponseDTO fromSchedule(PaymentSchedule schedule) {
         UserProfileScheduleResponseDTO response = new UserProfileScheduleResponseDTO();

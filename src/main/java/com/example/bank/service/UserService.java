@@ -1,14 +1,11 @@
 package com.example.bank.service;
 
 import com.example.bank.entity.BannedUser;
-import com.example.bank.entity.CreditTariff;
 import com.example.bank.entity.Scoring;
 import com.example.bank.entity.User;
 import com.example.bank.repository.BannedUserRepository;
-import com.example.bank.repository.ScoringRepository;
 import com.example.bank.repository.UserRepository;
 import com.example.bank.rest.BanUserRequestDTO;
-import com.example.bank.rest.TariffToUserRequestDTO;
 import com.example.bank.rest.UserInfoRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -73,6 +70,9 @@ public class UserService {
         User user = userRepository.findByPassportData(request.getPassportData());
         if(user == null) {
             throw new UsernameNotFoundException("Пользователь с такими паспортными данными не найден");
+        }
+        for(Scoring scoring : user.getScorings()) {
+            scoring.setCreditTariff(null);
         }
         userRepository.delete(user);
     }

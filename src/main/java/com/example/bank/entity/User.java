@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,6 +34,9 @@ public class User implements UserDetails  {
     private String password;
 
     private String recoveryCode;
+
+    @OneToMany(mappedBy = "user")
+    List<Scoring> scorings;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Role role;

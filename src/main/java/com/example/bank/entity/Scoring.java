@@ -34,4 +34,7 @@ public class Scoring {
 
     private boolean approved;
 
+    @OneToOne(mappedBy = "scoring")
+    private Credit credit;
+
 }

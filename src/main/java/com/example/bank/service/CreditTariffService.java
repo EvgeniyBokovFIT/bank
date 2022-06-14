@@ -1,6 +1,7 @@
 package com.example.bank.service;
 
 import com.example.bank.entity.CreditTariff;
+import com.example.bank.entity.Scoring;
 import com.example.bank.exception.TariffException;
 import com.example.bank.repository.CreditTariffRepository;
 import com.example.bank.rest.TariffRequestDTO;
@@ -67,6 +68,9 @@ public class CreditTariffService {
         CreditTariff creditTariff = creditTariffRepository.findCreditTariffById(request.getId());
         if(creditTariff == null) {
             throw new TariffException("Тарифа с id " + request.getId() + " не существует");
+        }
+        for(Scoring scoring : creditTariff.getScorings()) {
+            scoring.setCreditTariff(null);
         }
         creditTariffRepository.delete(creditTariff);
     }

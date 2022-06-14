@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,4 +28,7 @@ public class CreditTariff {
     private Double minRate;
 
     private Double maxRate;
+
+    @OneToMany(mappedBy = "creditTariff")
+    List<Scoring> scorings;
 }

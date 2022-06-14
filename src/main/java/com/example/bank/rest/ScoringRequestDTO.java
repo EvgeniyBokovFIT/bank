@@ -3,7 +3,9 @@ package com.example.bank.rest;
 import lombok.Data;
 
 @Data
-public class TariffToUserRequestDTO {
+public class ScoringRequestDTO {
+
+    private Long id;
 
     private Long tariffId;
 
