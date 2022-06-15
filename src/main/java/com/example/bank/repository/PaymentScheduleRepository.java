@@ -9,4 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PaymentScheduleRepository extends JpaRepository<PaymentSchedule, PaymentScheduleId> {
     Page<PaymentSchedule> findPaymentScheduleByCredit(Credit credit, Pageable pageable);
+
+    PaymentSchedule findTopByCreditAndPaymentMadeIsFalseOrderByPaymentDateAsc(Credit credit);
+
+    Long countByCreditAndPaymentMadeIsFalse(Credit credit);
 }

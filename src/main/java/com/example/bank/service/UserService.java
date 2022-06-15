@@ -1,6 +1,7 @@
 package com.example.bank.service;
 
 import com.example.bank.entity.BannedUser;
+import com.example.bank.entity.Role;
 import com.example.bank.entity.Scoring;
 import com.example.bank.entity.User;
 import com.example.bank.repository.BannedUserRepository;
@@ -59,6 +60,7 @@ public class UserService {
         if(userToBan == null) {
             throw new UsernameNotFoundException("Пользователь не найден");
         }
+        userToBan.setRole(new Role(3L, "ROLE_BANNED"));
         BannedUser bannedUser = new BannedUser();
         bannedUser.setUser(userToBan);
         bannedUser.setEndDate(calculateBanEndDate(request.getAmountOfDays()));

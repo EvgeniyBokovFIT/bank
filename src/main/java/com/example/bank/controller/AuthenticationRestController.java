@@ -1,6 +1,7 @@
 package com.example.bank.controller;
 
 import com.example.bank.entity.User;
+import com.example.bank.exception.UserIsBannedException;
 import com.example.bank.repository.UserRepository;
 import com.example.bank.rest.AuthenticationRequestDTO;
 import com.example.bank.security.JwtTokenProvider;
@@ -33,7 +34,7 @@ public class AuthenticationRestController {
         try {
             Map<Object, Object> response = authService.authenticate(request);
             return ResponseEntity.ok(response);
-        } catch (UsernameNotFoundException e) {
+        } catch (UsernameNotFoundException | UserIsBannedException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Неверная почта или пароль", HttpStatus.FORBIDDEN);

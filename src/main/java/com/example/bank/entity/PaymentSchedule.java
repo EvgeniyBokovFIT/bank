@@ -22,6 +22,8 @@ public class PaymentSchedule {
     @Column(name = "date", insertable = false, updatable = false)
     private java.sql.Timestamp paymentDate;
 
-    private Double amount;
+    private Long amount;
+
+    private boolean paymentMade = false;
 
 }

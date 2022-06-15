@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,4 +25,7 @@ public class Credit {
     private java.sql.Timestamp startDate;
 
     private java.sql.Timestamp endDate;
+
+    @OneToMany(mappedBy = "credit")
+    private List<PaymentSchedule> scheduleList;
 }

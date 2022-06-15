@@ -1,9 +1,12 @@
 package com.example.bank.service;
 
+import com.example.bank.entity.BannedUser;
 import com.example.bank.entity.Role;
 import com.example.bank.entity.User;
 import com.example.bank.exception.MailException;
 import com.example.bank.exception.PasswordException;
+import com.example.bank.exception.UserIsBannedException;
+import com.example.bank.repository.BannedUserRepository;
 import com.example.bank.repository.UserRepository;
 import com.example.bank.rest.AuthenticationRequestDTO;
 import com.example.bank.rest.UserInfoRequestDTO;
@@ -35,10 +38,12 @@ public class AuthService {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    private final String regexPattern = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+    @Autowired
+    private BannedUserRepository bannedUserRepository;
 
     public void register(UserInfoRequestDTO request) throws MailException, PasswordException {
 
+        String regexPattern = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
         if(!Pattern.compile(regexPattern).matcher(request.getMail()).matches()) {
             throw new MailException("Некорректный формат почты");
         }
@@ -61,10 +66,14 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public Map<Object, Object> authenticate(AuthenticationRequestDTO request) throws AuthenticationException {
+    public Map<Object, Object> authenticate(AuthenticationRequestDTO request) throws AuthenticationException, UserIsBannedException {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getMail(), request.getPassword()));
             User user = userRepository.findByMail(request.getMail());
+            BannedUser bannedUser = bannedUserRepository.findByUser(user);
+            if(bannedUser != null) {
+                throw new UserIsBannedException("Пользователь заблокирован");
+            }
             if (user == null) {
                 throw new UsernameNotFoundException("Пользователь не найден");
             }

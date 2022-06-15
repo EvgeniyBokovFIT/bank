@@ -20,9 +20,9 @@ public class CreditBalance {
     @JoinColumn(name = "credit_id")
     Credit credit;
 
-    private Long debt;
+    private Double debt;
 
-    private Long percents;
+    private Double percents;
 
     private Long commission;
 

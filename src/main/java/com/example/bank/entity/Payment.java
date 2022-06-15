@@ -12,14 +12,15 @@ import javax.persistence.*;
 @Entity
 @Table(name = "payments")
 public class Payment {
-    @EmbeddedId
-    private PaymentId id;
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "credit_id", insertable = false, updatable = false)
+    @JoinColumn(name = "credit_id")
     private Credit credit;
 
-    @Column(name = "date", insertable = false, updatable = false)
+    @Column(name = "date")
     private java.sql.Timestamp paymentDate;
 
     private Long amount;
